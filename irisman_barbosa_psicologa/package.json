@@ -1,12 +1,12 @@
 {
   "name": "site-irisman-barbosa",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p ${PORT:-3000}",
-    "lint": "next lint"
-  },
+"scripts": {
+  "dev": "next dev",
+"build": "prisma generate && next build",
+  "start": "next start",
+  "lint": "next lint"
+},
   "prisma": {
     "seed": "tsx --require dotenv/config scripts/safe-seed.ts"
   },
