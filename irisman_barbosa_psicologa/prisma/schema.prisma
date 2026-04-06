@@ -68,3 +68,24 @@ model Contact {
 
   @@map("contacts")
 }
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  icon        String?  // Ex: "Heart", "User"
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteConfig {
+  id            String   @id @default("singleton")
+  aboutText     String   @db.Text
+  aboutImage    String?
+  contactPhone  String?
+  contactEmail  String?
+  whatsappNumber String?
+  instagramUrl  String?
+  updatedAt     DateTime @updatedAt
+}
