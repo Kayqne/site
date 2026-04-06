@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irisman Barbosa — Psicologia Clínica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0b09;
+    --bg2: #111009;
+    --gold: #c9a84c;
+    --gold-light: #e2c97e;
+    --gold-dim: #8a6e2f;
+    --cream: #f2ead8;
+    --cream-dim: #a89f8c;
+    --white: #faf8f3;
+    --border: rgba(201,168,76,0.18);
+    --border-soft: rgba(201,168,76,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition: all 0.5s;
+  }
+
+  nav.scrolled {
+    background: rgba(12,11,9,0.92);
+    backdrop-filter: blur(18px);
+    border-color: var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--gold-light);
+    text-decoration: none;
+  }
+
+  .nav-logo span { font-style: italic; font-weight: 300; color: var(--cream-dim); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold-light); }
+
+  .nav-cta {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 0.6rem 1.4rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 6rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream-dim);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.55s forwards;
+  }
+
+  .hero-desc {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--cream-dim);
+    max-width: 38ch;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.7s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.85s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: color 0.3s;
+  }
+
+  .btn-ghost:hover { color: var(--cream); }
+  .btn-ghost::after { content: '↓'; font-size: 1rem; }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-wrap {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.3s forwards;
+  }
+
+  /* Placeholder portrait */
+  .hero-portrait {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #1a160e 0%, #0e0c08 60%, #0c0b09 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .portrait-silhouette {
+    width: 340px;
+    height: 85%;
+    background: linear-gradient(180deg, #2a2318 0%, #1a160e 100%);
+    clip-path: ellipse(50% 55% at 50% 45%);
+    opacity: 0.6;
+  }
+
+  .portrait-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .portrait-placeholder svg { opacity: 0.15; }
+
+  .portrait-placeholder p {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    opacity: 0.6;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, transparent 30%, transparent 70%, var(--bg) 100%),
+                linear-gradient(to bottom, rgba(12,11,9,0.4) 0%, transparent 20%, transparent 80%, var(--bg) 100%);
+    pointer-events: none;
+  }
+
+  .hero-ornament {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-ornament::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid var(--border-soft);
+    border-radius: 50%;
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 3rem;
+    left: 6rem;
+    display: flex;
+    gap: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1s forwards;
+  }
+
+  .stat-item { text-align: left; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-top: 0.3rem;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    opacity: 0.3;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    padding: 7rem 6rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 6rem;
+    align-items: center;
+    background: var(--bg2);
+  }
+
+  .about-image {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #1c1810 0%, #0f0d09 100%);
+    overflow: hidden;
+  }
+
+  .about-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .about-image-placeholder svg { opacity: 0.1; }
+
+  .about-image-placeholder p {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    opacity: 0.5;
+  }
+
+  .about-image::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, var(--bg2), transparent);
+    z-index: 1;
+  }
+
+  .about-frame {
+    position: absolute;
+    inset: -8px;
+    border: 1px solid var(--border);
+    transform: rotate(1.5deg);
+    pointer-events: none;
+  }
+
+  .about-gold-line {
+    position: absolute;
+    left: -1.5rem;
+    top: 3rem;
+    width: 3rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .about-content { padding: 1rem 0; }
+
+  .about-content .section-title { margin-bottom: 1.5rem; }
+
+  .about-text {
+    font-size: 0.92rem;
+    line-height: 2;
+    color: var(--cream-dim);
+    margin-bottom: 1.2rem;
+  }
+
+  .about-credentials {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .credential {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+    line-height: 1.5;
+  }
+
+  .credential::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+  }
+
+  .crp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-top: 2rem;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    background: var(--bg);
+  }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+
+  .services-header-left { max-width: 40ch; }
+
+  .services-header p {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--cream-dim);
+    max-width: 30ch;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border-soft);
+  }
+
+  .service-card {
+    background: var(--bg);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    background: #14120d;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    transition: color 0.4s;
+  }
+
+  .service-card:hover .service-number { color: rgba(201,168,76,0.12); }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 0.82rem;
+    line-height: 1.85;
+    color: var(--cream-dim);
+  }
+
+  .service-tag {
+    display: inline-block;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    margin-top: 1.5rem;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials {
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #testimonials::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30rem;
+    font-weight: 300;
+    color: var(--gold);
+    opacity: 0.025;
+    position: absolute;
+    top: -4rem;
+    left: 3rem;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .testimonials-header .section-eyebrow {
+    justify-content: center;
+  }
+
+  .testimonials-header .section-eyebrow::before { display: none; }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    border: 1px solid var(--border-soft);
+    padding: 2.5rem;
+    position: relative;
+    background: rgba(255,255,255,0.01);
+    transition: border-color 0.3s;
+  }
+
+  .testimonial-card:hover {
+    border-color: var(--border);
+  }
+
+  .testimonial-stars {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .star {
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.12rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a2318, #1a1610);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--gold-dim);
+  }
+
+  .author-info { display: flex; flex-direction: column; gap: 0.15rem; }
+
+  .author-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  .author-detail {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--cream-dim);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left { padding-top: 0.5rem; }
+
+  .contact-left .section-title { margin-bottom: 1.5rem; }
+
+  .contact-intro {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--cream-dim);
+    margin-bottom: 2.5rem;
+    max-width: 36ch;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.4rem; }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+
+  .contact-item-text { display: flex; flex-direction: column; gap: 0.2rem; }
+
+  .contact-item-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+
+  .contact-item-value {
+    font-size: 0.88rem;
+    color: var(--cream);
+  }
+
+  /* Form */
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .form-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-soft);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--gold-dim);
+    background: rgba(201,168,76,0.03);
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: rgba(168,159,140,0.3);
+  }
+
+  .form-select option { background: #1a1610; }
+
+  .form-textarea { resize: none; height: 120px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+
+  .form-submit:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .form-note {
+    font-size: 0.68rem;
+    color: var(--cream-dim);
+    opacity: 0.6;
+    text-align: center;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border-soft);
+    padding: 2.5rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-logo span { font-style: italic; color: var(--cream-dim); font-size: 0.9rem; }
+
+  .footer-links { display: flex; gap: 2rem; }
+
+  .footer-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: var(--cream-dim);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ─── MOBILE HAMBURGER ─── */
+  .nav-toggle { display: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    section { padding: 5rem 3rem; }
+    nav { padding: 1.2rem 3rem; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 8rem 3rem 4rem; }
+    .hero-right { display: none; }
+    .hero-stats { left: 3rem; }
+    #about { grid-template-columns: 1fr; }
+    .about-image { display: none; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+
+  @media (max-width: 640px) {
+    section { padding: 4rem 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { left: 1.5rem; gap: 2rem; }
+    footer { padding: 2rem 1.5rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">Ana <span>Cavalcanti</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#testimonials">Depoimentos</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Agendar Consulta</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Psicologia Clínica & Analítica</p>
+    <h1 class="hero-title">Dra. Ana<br><em>Cavalcanti</em></h1>
+    <p class="hero-subtitle">Psicóloga — CRP 00/00000</p>
+    <p class="hero-desc">
+      Um espaço seguro e acolhedor para o seu processo de autoconhecimento, equilíbrio emocional e transformação pessoal. Atendimento presencial e online.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#contact">Agendar Consulta</a>
+      <a class="btn-ghost" href="#about">Conheça mais</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-image-wrap">
+      <div class="hero-portrait">
+        <div class="portrait-placeholder">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="28" r="16" stroke="#c9a84c" stroke-width="1"/>
+            <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+          <p>Foto da psicóloga</p>
+        </div>
+      </div>
+    </div>
+    <div class="hero-ornament"></div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Anos de experiência</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Pacientes atendidos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Satisfação</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image reveal">
+    <div class="about-image-placeholder">
+      <svg width="70" height="70" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="28" r="16" stroke="#c9a84c" stroke-width="1"/>
+        <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="#c9a84c" stroke-width="1"/>
+      </svg>
+      <p>Foto profissional</p>
+    </div>
+    <div class="about-frame"></div>
+    <div class="about-gold-line"></div>
+  </div>
+
+  <div class="about-content reveal">
+    <p class="section-eyebrow">Sobre mim</p>
+    <h2 class="section-title">Cuidado que <em>transforma</em></h2>
+    <p class="about-text">
+      Sou psicóloga clínica com formação em Psicologia Analítica (Junguiana) e especialização em saúde mental. Acredito que cada pessoa carrega consigo recursos internos únicos para superar seus desafios — meu papel é criar um espaço seguro para que você os encontre.
+    </p>
+    <p class="about-text">
+      Atendo adultos e adolescentes com foco em ansiedade, depressão, relacionamentos, autoconhecimento e desenvolvimento pessoal. Cada processo terapêutico é singular e conduzido com escuta ativa, empatia e ética.
+    </p>
+    <div class="about-credentials">
+      <div class="credential">Graduação em Psicologia — Universidade de Brasília (UnB)</div>
+      <div class="credential">Especialização em Psicologia Analítica Junguiana</div>
+      <div class="credential">Formação em Terapia Cognitivo-Comportamental (TCC)</div>
+      <div class="credential">Membro do Conselho Federal de Psicologia</div>
+    </div>
+    <div class="crp-badge">
+      <span>CRP</span>
+      <span style="color: var(--cream-dim)">00/00000 — Registro ativo</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div class="services-header-left">
+      <p class="section-eyebrow">O que ofereço</p>
+      <h2 class="section-title">Serviços &<br><em>Abordagens</em></h2>
+    </div>
+    <p>Cada modalidade é pensada para atender às suas necessidades de forma personalizada e cuidadosa.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <h3 class="service-name">Psicoterapia Individual</h3>
+      <p class="service-desc">Processo terapêutico individual focado em autoconhecimento, resolução de conflitos internos e desenvolvimento emocional sustentável.</p>
+      <span class="service-tag">Presencial · Online</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">02</div>
+      <h3 class="service-name">Ansiedade & Depressão</h3>
+      <p class="service-desc">Acompanhamento especializado para quadros de ansiedade, síndrome do pânico, burnout e transtornos depressivos com abordagem integrativa.</p>
+      <span class="service-tag">Especialidade</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">03</div>
+      <h3 class="service-name">Psicologia Analítica</h3>
+      <p class="service-desc">Abordagem junguiana com foco no inconsciente, arquétipos e individuação. Um mergulho profundo na sua história e potencial de transformação.</p>
+      <span class="service-tag">Jung · Profundidade</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">04</div>
+      <h3 class="service-name">Terapia de Casal</h3>
+      <p class="service-desc">Espaço para ressignificar padrões relacionais, melhorar a comunicação e fortalecer vínculos afetivos com escuta imparcial e técnica.</p>
+      <span class="service-tag">Presencial</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">05</div>
+      <h3 class="service-name">Atendimento Online</h3>
+      <p class="service-desc">Sessões por videochamada com a mesma qualidade e sigilo do atendimento presencial. Flexibilidade para sua rotina, onde quer que você esteja.</p>
+      <span class="service-tag">Nationwide</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">06</div>
+      <h3 class="service-name">Orientação Parental</h3>
+      <p class="service-desc">Suporte especializado para pais e mães navegarem os desafios da criação de filhos com mais segurança, presença e consciência emocional.</p>
+      <span class="service-tag">Família</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header reveal">
+    <p class="section-eyebrow">Depoimentos</p>
+    <h2 class="section-title">O que dizem<br><em>meus pacientes</em></h2>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+      </div>
+      <p class="testimonial-text">"A Dra. Ana transformou minha relação comigo mesma. Entrei em terapia achando que precisava de respostas; saí entendendo as perguntas certas."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">M</div>
+        <div class="author-info">
+          <span class="author-name">Mariana S.</span>
+          <span class="author-detail">Paciente há 2 anos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+      </div>
+      <p class="testimonial-text">"Profissional incrível. O atendimento online é tão completo quanto o presencial. Consegui superar o burnout com um suporte que nunca imaginei encontrar."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">R</div>
+        <div class="author-info">
+          <span class="author-name">Rafael M.</span>
+          <span class="author-detail">Paciente há 1 ano</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+      </div>
+      <p class="testimonial-text">"Sempre fui cético com terapia. A abordagem da Ana mudou tudo. É um espaço sem julgamentos onde consigo ser completamente honesto."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">T</div>
+        <div class="author-info">
+          <span class="author-name">Thiago L.</span>
+          <span class="author-detail">Paciente há 8 meses</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <p class="section-eyebrow">Agendamento</p>
+    <h2 class="section-title">Dê o primeiro<br><em>passo</em></h2>
+    <p class="contact-intro">
+      O início de um processo terapêutico é um ato de coragem. Entre em contato e agende sua consulta — responderei em até 24 horas.
+    </p>
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">✆</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Telefone / WhatsApp</span>
+          <span class="contact-item-value">(61) 9 9999-9999</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">@</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">E-mail</span>
+          <span class="contact-item-value">contato@dranacavalcanti.com.br</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⊙</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Localização</span>
+          <span class="contact-item-value">Brasília, DF — Atendimento presencial e online</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">◷</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Horários</span>
+          <span class="contact-item-value">Seg–Sex: 8h–19h &nbsp;|&nbsp; Sáb: 8h–13h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-right reveal">
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome</label>
+          <input class="form-input" type="text" placeholder="Seu nome completo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" type="tel" placeholder="(00) 9 0000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input class="form-input" type="email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Modalidade</label>
+        <select class="form-select">
+          <option value="" disabled selected>Selecione uma modalidade</option>
+          <option>Psicoterapia Individual (Presencial)</option>
+          <option>Psicoterapia Individual (Online)</option>
+          <option>Terapia de Casal</option>
+          <option>Orientação Parental</option>
+          <option>Primeira Consulta / Triagem</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mensagem (opcional)</label>
+        <textarea class="form-textarea" placeholder="Conte um pouco sobre o que busca..."></textarea>
+      </div>
+      <button class="form-submit" type="button">Solicitar Agendamento</button>
+      <p class="form-note">Sigilo e ética garantidos. Retorno em até 24h úteis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ana <span>Cavalcanti</span></div>
+  <div class="footer-links">
+    <a href="#about">Sobre</a>
+    <a href="#services">Serviços</a>
+    <a href="#testimonials">Depoimentos</a>
+    <a href="#contact">Contato</a>
+    <a href="#">Política de Privacidade</a>
+  </div>
+  <p class="footer-copy">© 2025 Irisman Barbosa · CRP 00/00000</p>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
