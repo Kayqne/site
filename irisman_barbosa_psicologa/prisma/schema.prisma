@@ -80,12 +80,13 @@ model Service {
 }
 
 model SiteConfig {
-  id            String   @id @default("singleton")
-  aboutText     String   @db.Text
-  aboutImage    String?
-  contactPhone  String?
-  contactEmail  String?
+  id             String   @id @default("singleton")
+  aboutText      String   @db.Text
+  aboutImage     String?
+  contactPhone   String?
+  contactEmail   String?
   whatsappNumber String?
-  instagramUrl  String?
-  updatedAt     DateTime @updatedAt
+  instagramUrl   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
