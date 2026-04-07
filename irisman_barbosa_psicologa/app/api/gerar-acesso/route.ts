@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 export async function GET() {
   const email = "Irisman.psi@gmail.com"; // <--- Coloque seu email aqui
-  const senhaPura = "Irisman@2024"; // <--- Defina a senha que deseja usar
+  const senhaPura = "Irisman@2026"; // <--- Defina a senha que deseja usar
 
   try {
     const hashedPassword = await bcrypt.hash(senhaPura, 10);
