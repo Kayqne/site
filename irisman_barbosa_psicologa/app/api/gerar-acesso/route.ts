@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 
 export async function GET() {
-  const email = "SEU-EMAIL-AQUI@gmail.com"; // <--- Coloque seu email aqui
+  const email = "Irisman.psi@gmail.com"; // <--- Coloque seu email aqui
   const senhaPura = "Irisman@2024"; // <--- Defina a senha que deseja usar
 
   try {
