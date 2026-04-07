@@ -16,29 +16,24 @@ export default async function AdminPage() {
     return <div style={{ padding: 24 }}>Acesso negado.</div>;
   }
 
+  // Busca segura: Se o banco falhar no build, ele não trava o deploy
   let config = null;
   try {
-    // Tenta buscar no banco, mas não deixa o build quebrar se falhar
     config = await prisma.siteConfig.findUnique({ where: { id: 'singleton' } });
-  } catch (error) {
-    console.error("Erro ao buscar config no build:", error);
+  } catch (e) {
+    console.log("Aguardando conexão com banco...");
   }
 
   return (
     <main style={{ padding: 24, maxWidth: 800, margin: '0 auto' }}>
-      <h1>Painel Admin</h1>
-      <p>Olá, {(session.user as any)?.name}.</p>
-
-      <section style={{ marginTop: 20, padding: 20, background: '#f5f5f5', borderRadius: 8 }}>
-        <h2>Configuração do Site</h2>
-        {/* Se o banco falhar, o form inicia vazio em vez de dar erro 500 */}
+      <h1>Painel de Controle</h1>
+      <p>Bem-vindo, {(session.user as any)?.name}.</p>
+      <section style={{ marginTop: 20, padding: 20, background: '#f9f9f9', borderRadius: 8, border: '1px solid #ddd' }}>
         <EditSiteConfigForm initialConfig={config} />
       </section>
-
-      <ul style={{ marginTop: 40 }}>
-        <li><a href="/admin/appointments">Agendamentos</a></li>
-        <li><a href="/">Sair</a></li>
-      </ul>
+      <div style={{ marginTop: 20 }}>
+        <a href="/api/auth/signout" style={{ color: 'red' }}>Sair do sistema</a>
+      </div>
     </main>
   );
 }
