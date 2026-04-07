@@ -1,17 +1,36 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function EditSiteConfigForm({ initialConfig }: any) {
+  // inicializa com strings vazias para evitar mismatch SSR/CSR
   const [form, setForm] = useState({
-    aboutText: initialConfig?.aboutText ?? '',
-    aboutImage: initialConfig?.aboutImage ?? '',
-    contactPhone: initialConfig?.contactPhone ?? '',
-    contactEmail: initialConfig?.contactEmail ?? '',
-    whatsappNumber: initialConfig?.whatsappNumber ?? '',
-    instagramUrl: initialConfig?.instagramUrl ?? '',
+    aboutText: '',
+    aboutImage: '',
+    contactPhone: '',
+    contactEmail: '',
+    whatsappNumber: '',
+    instagramUrl: '',
   });
+  const [initialized, setInitialized] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
+
+  // ao montar, popula com os valores vindos do servidor (se existirem)
+  useEffect(() => {
+    if (initialConfig && !initialized) {
+      setForm({
+        aboutText: initialConfig.aboutText ?? '',
+        aboutImage: initialConfig.aboutImage ?? '',
+        contactPhone: initialConfig.contactPhone ?? '',
+        contactEmail: initialConfig.contactEmail ?? '',
+        whatsappNumber: initialConfig.whatsappNumber ?? '',
+        instagramUrl: initialConfig.instagramUrl ?? '',
+      });
+      setInitialized(true);
+      // debug - console para confirmar que o componente montou
+      console.log('EditSiteConfigForm initialConfig', initialConfig);
+    }
+  }, [initialConfig, initialized]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +50,11 @@ export default function EditSiteConfigForm({ initialConfig }: any) {
     } finally {
       setSaving(false);
     }
+  }
+
+  // enquanto não inicializou do server, mostra um loader simples
+  if (!initialized) {
+    return <div>Carregando formulário…</div>;
   }
 
   return (
