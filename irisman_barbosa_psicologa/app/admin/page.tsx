@@ -13,41 +13,32 @@ export default async function AdminPage() {
   }
 
   if ((session.user as any)?.role !== 'admin') {
-    return (
-      <div style={{ padding: 24, textAlign: 'center' }}>
-        <h1>Acesso negado</h1>
-        <p>Você não tem permissão de administrador.</p>
-        <a href="/">Voltar para o site</a>
-      </div>
-    );
+    return <div style={{ padding: 24 }}>Acesso negado.</div>;
   }
 
-  // Busca a configuração do banco
-  const config = await prisma.siteConfig.findUnique({ where: { id: 'singleton' } });
+  let config = null;
+  try {
+    // Tenta buscar no banco, mas não deixa o build quebrar se falhar
+    config = await prisma.siteConfig.findUnique({ where: { id: 'singleton' } });
+  } catch (error) {
+    console.error("Erro ao buscar config no build:", error);
+  }
 
   return (
-    <main style={{ padding: '40px 20px', maxWidth: '800px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-      <header style={{ borderBottom: '1px solid #eee', marginBottom: '30px', paddingBottom: '10px' }}>
-        <h1>Painel Administrativo</h1>
-        <p>Olá, <strong>{(session.user as any)?.name || 'Dra. Irisman'}</strong></p>
-      </header>
+    <main style={{ padding: 24, maxWidth: 800, margin: '0 auto' }}>
+      <h1>Painel Admin</h1>
+      <p>Olá, {(session.user as any)?.name}.</p>
 
-      <section style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', border: '1px solid #ddd' }}>
-        <h2 style={{ marginTop: 0 }}>Configurações Gerais do Site</h2>
-        <p style={{ fontSize: '14px', color: '#666' }}>Altere os textos do "Sobre Mim", links de redes sociais e WhatsApp.</p>
-        
-        {/* Renderiza o formulário enviando os dados do banco */}
+      <section style={{ marginTop: 20, padding: 20, background: '#f5f5f5', borderRadius: 8 }}>
+        <h2>Configuração do Site</h2>
+        {/* Se o banco falhar, o form inicia vazio em vez de dar erro 500 */}
         <EditSiteConfigForm initialConfig={config} />
       </section>
 
-      <section style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #eee' }}>
-        <h3>Outras Opções</h3>
-        <ul style={{ lineHeight: '2' }}>
-          <li><a href="/admin/appointments">Visualizar Agendamentos</a></li>
-          <li><a href="/">Ver site ao vivo</a></li>
-          <li><a href="/api/auth/signout" style={{ color: 'red' }}>Sair do Painel</a></li>
-        </ul>
-      </section>
+      <ul style={{ marginTop: 40 }}>
+        <li><a href="/admin/appointments">Agendamentos</a></li>
+        <li><a href="/">Sair</a></li>
+      </ul>
     </main>
   );
 }
